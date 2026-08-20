@@ -1,0 +1,6 @@
+*.substvars
+*debhelper*
+.debhelper
+containernetworking-podman-machine
+files
+tmp

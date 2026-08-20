@@ -1,0 +1,22 @@
+#!/usr/bin/make -f
+
+SHELL := /bin/bash
+
+override_dh_auto_build:
+	mkdir -p bin
+	set -ex && \
+		go build \
+            -mod vendor -buildmode pie -v \
+			-ldflags "-s -w -X main.gitCommit=0749884b8d1a455c68da30789e37811ec0809d51" \
+            -o ./bin/podman-machine github.com/containers/podman-machine-cni/plugins/meta/podman-machine
+
+override_dh_auto_install:
+	install -Dpm755 -d debian/tmp/opt/cni/bin
+	install -Dpm755 -t debian/tmp/opt/cni/bin bin/podman-machine
+
+override_dh_auto_test:
+
+override_dh_auto_clean:
+
+%:
+	dh $@
